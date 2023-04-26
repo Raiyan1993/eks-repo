@@ -1,0 +1,9 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: nginx-tg
+spec:
+  serviceRef:
+    name: nginx-svc
+    port: 8080
+  targetGroupARN: arn:aws:elasticloadbalancing:ap-southeast-1:221625973137:targetgroup/my-nginx/b20078bc740cae97 

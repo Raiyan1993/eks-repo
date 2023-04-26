@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      myapp: fargate
+  template:
+    metadata:
+      labels:
+        myapp: fargate
+    spec:
+      containers:
+        - name: httpd
+          image: httpd:latest
+          ports:
+            - name: http
+              containerPort: 80

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+spec:
+  selector:
+    matchLabels:
+      app: nginx 
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: 221625973137.dkr.ecr.ap-southeast-1.amazonaws.com/app1-nginx:v1
+        ports:
+        - containerPort: 80

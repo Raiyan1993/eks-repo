@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: myalb-group
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    #alb.ingress.kubernetes.io/load-balancer-attributes: access_logs.s3.enabled=true, access_logs.s3.bucket=mywebsite-raiyan, access_logs.s3.prefix=alb_logs
+    #alb.ingress.kubernetes.io/inbound-cidrs: 192.168.0.0/16, 100.64.0.0/16
+    #alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    #alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=120 #ALB warm up period 
+    #alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:221625973137:certificate/d25f66d4-76e6-4253-86cb-d0bcf8042a48
+    #alb.ingress.kubernetes.io/scheme: internal
+    #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    #alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=120
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/actions.default-rule: >
+      {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"200","messageBody":"200 status OK"}}
+  name: alb-ingress
+spec:
+  rules:
+  - #host: alb-internal.test1.in
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: httpd-svc
+            port:
+              number: 8080
+      - path: /health
+        pathType: Exact
+        backend:
+          service:
+            name: default-rule
+            port:
+              name: use-annotation

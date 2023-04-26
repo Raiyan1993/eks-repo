@@ -1,0 +1,28 @@
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"karpenter.sh/v1alpha5","kind":"Provisioner","metadata":{"annotations":{},"name":"default"},"spec":{"limits":{"resources":{"cpu":1000}},"providerRef":{"name":"default"},"requirements":[{"key":"karpenter.sh/capacity-type","operator":"In","values":["spot"]}],"ttlSecondsAfterEmpty":30}}
+  creationTimestamp: "2022-12-28T06:02:46Z"
+  generation: 1
+  name: default
+  resourceVersion: "1561362"
+  uid: 4592a8a3-cf2b-45c0-8c8d-ef0cc21b93d0
+spec:
+  limits:
+    resources:
+      cpu: 1k
+  providerRef:
+    name: default
+  requirements:
+  - key: karpenter.sh/capacity-type
+    operator: In
+    values:
+    - spot
+  - key: kubernetes.io/arch
+    operator: In
+    values:
+    - amd64
+  ttlSecondsAfterEmpty: 30
+status: {}
